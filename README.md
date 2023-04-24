@@ -1,2 +1,2 @@
 # gcp-resources
-Create and Manage Cloud Resources: Challenge Lab
+QUEST | Create and Manage Cloud Resources: Challenge Lab
