@@ -9,7 +9,7 @@
 
 ## Task 2. Create a Kubernetes service cluster
 
-  # Create a zonal cluster using <filled in at lab start>.
+  # Create a zonal cluster using us-west1-d.
 
     gcloud config set compute/region us-west1
     gcloud config set compute/zone us-west1-d
@@ -51,8 +51,6 @@
   gcloud compute instance-templates create lb-nginx-template \
    --region=us-west1 \
    --network=default \
-   --subnet=default \
-   --tags=allow-health-check \
    --machine-type=g1-small \
    --image-family=debian-11 \
    --image-project=debian-cloud \
@@ -83,7 +81,6 @@ gcloud compute instances list
   --action=allow \
   --direction=ingress \
   --source-ranges=130.211.0.0/22,35.191.0.0/16 \
-  --target-tags=allow-health-check \
   --rules=tcp:80
   
   # set up a global static external IP address
@@ -105,14 +102,14 @@ gcloud compute health-checks create http http-basic-check \
 named port (http:80).
 
 gcloud compute backend-services create lb-nginx-backend \
---protocol HTTP \
---port-name http \
---http-health-checks http-basic-check 
+--protocol=HTTP \
+--port-name=http \
+--http-health-checks=http-basic-check 
 --global
 
 gcloud compute backend-services add-backend lb-nginx-backend \
---instance-group lb-nginx-group \
---instance-group-zone us-west1-d \
+--instance-group=lb-nginx-group \
+--instance-group-zone=us-west1-d \
 --global
 
 #Create a URL map, and target the HTTP proxy to route requests to your URL map.
@@ -137,3 +134,11 @@ gcloud compute forwarding-rules list
   Cloud console -> Navigation menu -> Network services -> Load balancing -> web-map-http ->
     Backend -> lb-nginx-backend
   http://[LOAD BALANCER IP_ADDRESS]/
+  
+  # fix HTTP lb - get the network from
+  gcloud compute networks list
+  # substitute the ntework name in:
+  gcloud compute firewall-rules create web-server-firewall
+    --allow tcp:80
+    --network VPC_NAME
+  
