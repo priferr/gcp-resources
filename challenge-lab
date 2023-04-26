@@ -1,134 +1,135 @@
-## Task 1. Create a project jumphost instance
+## Challenge info
 
-    gcloud compute instances create nucleus-jumphost-125 \
-    --machine-type f1-micro --zone us-west1-d
-    
-   # Use SSH to connect instance
-        gcloud compute ssh nucleus-jumphost-125 --zone us-west1-d
-        # exit pra sair
+
+UP## Task 1. Create a project jumphost instance
+
+gcloud compute instances create nucleus-jumphost-934 \
+--network nucleus-vpc \
+--zone us-west1-d \
+--machine-type f1-micro \
+--image-family debian-10 \
+--image-project debian-cloud
+
 
 ## Task 2. Create a Kubernetes service cluster
 
-  # Create a zonal cluster using us-west1-d.
+# Create a zonal cluster using us-west4-a.
 
-    gcloud config set compute/region us-west1
-    gcloud config set compute/zone us-west1-d
+# Use the Docker container hello-app (gcr.io/google-samples/hello-app:2.0) 
+as a placeholder; the team will replace the container with their own work later.
+Expose the app on port App port number.
 
-  # Use the Docker container hello-app (gcr.io/google-samples/hello-app:2.0) 
-    as a placeholder; the team will replace the container with their own work later.
-    Expose the app on port App port number.
+# You can copy the 4 next codes and paste at gshell at once
 
-    gcloud container clusters create nucleus-webserver1 \
-    --machine-type=n1-standard-1 --zone=us-west1-d
+gcloud container clusters create nucleus-webserver \
+--num-nodes=1 \
+--network=nucleus-vpc \
+--machine-type=n1-standard-1 \
+--zone=us-west4-a
 
-    gcloud container clusters get-credentials nucleus-webserver1
+gcloud container clusters get-credentials nucleus-webserver \
+--zone=us-wets4-a
 
-    kubectl create deployment hello-server --image=gcr.io/google-samples/hello-app:2.0
+kubectl create deployment hello-server \
+--image=gcr.io/google-samples/hello-app:2.0
 
-    kubectl expose deployment hello-server --type=LoadBalancer --port 8081
-
-    kubectl get service 
+kubectl expose deployment hello-server \
+--type=LoadBalancer --port 8083 
     
-    # get the external IP and test it on http://[EXTERNAL-IP]:8081
+					# get the external IP and test it on http://[EXTERNAL-IP]:8083
+
+					kubectl get service
 
 ## Task 3. Set up an HTTP load balancer
 
-  #Configure nginx web servers
-    cat << EOF > startup.sh
-    #! /bin/bash
-    apt-get update
-    apt-get install -y nginx
-    service nginx start
-    sed -i -- 's/nginx/Google Cloud Platform - '"\$HOSTNAME"'/' /var/www/html/index.nginx-debian.html
-    EOF
+#Configure nginx web servers
+
+cat << EOF > startup.sh
+#! /bin/bash
+apt-get update
+apt-get install -y nginx
+service nginx start
+sed -i -- 's/nginx/Google Cloud Platform - '"\$HOSTNAME"'/' /var/www/html/index.nginx-debian.html
+EOF
 
 
-  # Create an instance template.
-  
-    # used before: gcloud compute instance-templates create nginx-template \
-  --metadata-from-file startup-script=startup.sh
-  
-  gcloud compute instance-templates create lb-nginx-template \
-   --region=us-west1 \
-   --network=default \
-   --subnet=default \
-   --tags=allow-health-check \ 
-   --machine-type=f1-micro \
-   --image-family=debian-11 \
-   --image-project=debian-cloud \
-   --metadata=startup-script=startup.sh
-  
-# Create a target pool.
+# Create an instance template.
+ 
+gcloud compute instance-templates create lb-nginx-template \
+--metadata-from-file startup-script=startup.sh \
+--network=nucleus-vpc \
+--machine-type=g1-small \
+--region=us-west4
 
-  gcloud compute target-pools create lb-nginx-pool \
-    --region us-west1
+				# Create a target pool.
+
+				gcloud compute target-pools create lb-nginx-pool \
+				--region=us-west4
 
 # Create a managed instance group.
 
 gcloud compute instance-groups managed create lb-nginx-group \
---base-instance-name nginx \
---size 2 \
---template lb-nginx-template \
---target-pool lb-nginx-pool
---zone us-west1-d
+--base-instance-name=nginx-server \
+--size=2 \
+--template=lb-nginx-template \
+--region=us-west4
 
-gcloud compute instances list
+				# hold on: gcloud compute instances list
 
 #Create a firewall rule named as Firewall rule to allow traffic (80/tcp).
-
- # before: gcloud compute firewall-rules create permit-tcp-rule-547 --allow tcp:80
  
- gcloud compute firewall-rules create permit-tcp-rule-547 \
-  --network=default \
-  --action=allow \
-  --direction=ingress \
-  --source-ranges=130.211.0.0/22,35.191.0.0/16 \
-  --rules=tcp:80
-  
-  # set up a global static external IP address
-  gcloud compute addresses create lb-ipv4-1 \
-  --ip-version=IPV4 \
-  --global
-  
-  # note the IPv4 reserved
-  gcloud compute addresses describe lb-ipv4-1 \
-  --format="get(address)" \
-  --global
+gcloud compute firewall-rules create grant-tcp-rule-610 \
+--allow=tcp:80 \
+--network=nucleus-vpc
+
+gcloud compute firewall-rules list
+
+		# set up a global static external IP address
+		gcloud compute addresses create lb-ipv4-1 \
+		--ip-version=IPV4 \
+		--global
+
+		# note the IPv4 reserved
+		gcloud compute addresses describe lb-ipv4-1 \
+		--format="get(address)" \
+		--global
 
 #Create a health check.
 
-gcloud compute health-checks create http http-basic-check \
-  --port 80
+gcloud compute health-checks create http lb-basic-check \
+--port=80 --region=us-west4
 
-# Create a backend service, and attach the managed instance group with 
-named port (http:80).
+gcloud compute instance-groups managed \
+--set-named-ports lb-nginx-group \
+--named-ports http:80 \
+--region us-west4
+
+# Create a backend service, and attach the managed instance group with named port (http:80).
 
 gcloud compute backend-services create lb-nginx-backend \
 --protocol=HTTP \
---port-name=http \
---http-health-checks=http-basic-check 
+--health-checks=lb-basic-check \
 --global
 
 gcloud compute backend-services add-backend lb-nginx-backend \
---instance-group=lb-nginx-group \
---instance-group-zone=us-west1-d \
---global
+  --instance-group=lb-nginx-group \
+  --instance-group-region=us-west4 \
+  --global
 
 # Create a URL map, and target the HTTP proxy to route requests to your URL map.
 
 gcloud compute url-maps create lb-map-http \
---default-service lb-nginx-backend
+--default-service=lb-nginx-backend
 
 gcloud compute target-http-proxies create http-lb-proxy \
---url-map lb-map-http
+--url-map=lb-map-http
 
 # Create a forwarding rule.
 
 gcloud compute forwarding-rules create http-lb-rule \
-    --address=lb-ipv4-1\
-    --global \
-    --target-http-proxy=http-lb-proxy \
-    --ports=80
+--global \
+--target-http-proxy=http-lb-proxy \
+--ports=80 \
 
 gcloud compute forwarding-rules list
 
@@ -143,4 +144,6 @@ gcloud compute forwarding-rules list
   gcloud compute firewall-rules create web-server-firewall
     --allow tcp:80
     --network VPC_NAME
+	
+	
   
