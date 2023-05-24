@@ -9,36 +9,36 @@ They provide an overview of concepts central to cloud basics, big data, and mach
 I got this course from an inclusion initiative from my city's prefecture in partnership with Google.
 
 ## Courses
-### Curso 0: A Tour of Google Cloud Hands-on Labs
+### 0: A Tour of Google Cloud Hands-on Labs
             ﹒Labs intro
-### Curso 1:  Cloud Computing Fundamentals
+### 1:  Cloud Computing Fundamentals
             ﹒GCP architecture
             ﹒Cloud Shell, gcloud & gcp APIs
-### Curso 2:  Infrastructure in Google Cloud
+### 2:  Infrastructure in Google Cloud
             ﹒Cloud Storage, Cloud SQL, Cloud Spanner
             ﹒NoSQL options: Firestore, BigTable
             ﹒Cloud Endpoints, Pub/Sub with Python
             ﹒Cloud IAM
-### Curso 3 : Networking and Security
+### 3 : Networking and Security
             ﹒VPC Network, Cloud Monitoring
             ﹒IaC with Terraform
-### Curso 4: Data, ML, and AI in Google Cloud
+### 4: Data, ML, and AI in Google Cloud
             ﹒Big Data with Dataproc
             ﹒BigQuery, Dataprep
             ﹒ETL with Dataflow & Python
 
 ## Challenge Labs - Skill Badges
-### Selo de Habilidade 1:  Crie e gerencie recursos na nuvem
+### Skill Badge 1: Create and Manage Cloud Resources
                       ﹒Google Compute Engine to create VM Machine
                       ﹒Kubernetes Engine to manage & deploy containerized apps
                       ﹒Setup Network and HTTP Load Balancers
-### Selo de Habilidade 2: Executar tarefas de infraestrutura de base
+### Skill Badge 2: Perform Foundational Infrastructure Tasks in Google Cloud
                       ﹒Cloud Storage, Cloud IAM, Cloud Monitoring
                       ﹒Create topic and consume with Python scripts & Cloud Pub/Sub
-### Selo de Habilidade 3: Criar e proteger redes no Google Cloud
+### Skill Badge 3: Build and Secure Networks in Google Cloud
                       ﹒HTTP load balancer with Cloud Armor
                       ﹒Setup firewall rules
-### Selo de Habilidade 4: Execute tarefas básicas de dados, ML e IA
+### Skill Badge 4: Perform Foundational Data, ML, and AI Tasks in Google Cloud
                       ﹒BigQuery for processing and exploratory data analysis
                       ﹒TensorFlow regressor model to predict customer lifetime value
                       ﹒Vertex AI to train and deploy the model
