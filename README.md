@@ -45,3 +45,7 @@ I got this course from an inclusion initiative from my city's prefecture in part
                       ﹒Dataprep for preparing data for analysis
                       ﹒Dataproc to create cluster and run Spark and Hadoop
                       ﹒Cloud Dataflow SDK for Python, to run a pipeline on gcp
+
+<p align="center">
+  <img src="https://github.com/priferr/gcp_foundations/assets/105013804/a42f084b-e407-4172-8d12-55620215ed14">
+</p>
