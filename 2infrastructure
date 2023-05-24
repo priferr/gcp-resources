@@ -1,0 +1,17 @@
+# Perform Foundational Infrastructure Tasks in Google Cloud: Challenge Lab
+    
+   ## Task 1
+    
+    gcloud storage buckets create gs://<Bucket_Name>
+    
+   ## Task 2:
+    
+    gcloud pubsub topics create <Pub/Sub_topic>
+    
+   ## Task 3:
+    
+    Cloud functions > create function > name > http:cloud stora, event type: on (finalizing/creating) file in the selected bucket, bucket:select bucket > save > next > runtime: “the functions is written in” > entry point: <entry point>, inline editor: paste code from files (index and package) > deploy >> 5 MINUTES
+    
+   ## Task 4:
+    
+    open Navigation > IAM > IAM > check the student name
