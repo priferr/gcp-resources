@@ -29,22 +29,22 @@ I got this course from an inclusion initiative from my city's prefecture in part
 
 ## Challenge Labs - Skill Badges
 ### Skill Badge 1: Create and Manage Cloud Resources
-                      ﹒Google Compute Engine to create VM Machine
-                      ﹒Kubernetes Engine to manage & deploy containerized apps
-                      ﹒Setup Network and HTTP Load Balancers
+            ﹒Google Compute Engine to create VM Machine
+            ﹒Kubernetes Engine to manage & deploy containerized apps
+            ﹒Setup Network and HTTP Load Balancers
 ### Skill Badge 2: Perform Foundational Infrastructure Tasks in Google Cloud
-                      ﹒Cloud Storage, Cloud IAM, Cloud Monitoring
-                      ﹒Create topic and consume with Python scripts & Cloud Pub/Sub
+            ﹒Cloud Storage, Cloud IAM, Cloud Monitoring
+            ﹒Create topic and consume with Python scripts & Cloud Pub/Sub
 ### Skill Badge 3: Build and Secure Networks in Google Cloud
-                      ﹒HTTP load balancer with Cloud Armor
-                      ﹒Setup firewall rules
+            ﹒HTTP load balancer with Cloud Armor
+            ﹒Setup firewall rules
 ### Skill Badge 4: Perform Foundational Data, ML, and AI Tasks in Google Cloud
-                      ﹒BigQuery for processing and exploratory data analysis
-                      ﹒TensorFlow regressor model to predict customer lifetime value
-                      ﹒Vertex AI to train and deploy the model
-                      ﹒Dataprep for preparing data for analysis
-                      ﹒Dataproc to create cluster and run Spark and Hadoop
-                      ﹒Cloud Dataflow SDK for Python, to run a pipeline on gcp
+            ﹒BigQuery for processing and exploratory data analysis
+            ﹒TensorFlow regressor model to predict customer lifetime value
+            ﹒Vertex AI to train and deploy the model
+            ﹒Dataprep for preparing data for analysis
+            ﹒Dataproc to create cluster and run Spark and Hadoop
+            ﹒Cloud Dataflow SDK for Python, to run a pipeline on gcp
 
 <p align="center">
   <img src="https://github.com/priferr/gcp_foundations/assets/105013804/a42f084b-e407-4172-8d12-55620215ed14">
